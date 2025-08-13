@@ -15,10 +15,19 @@ async function uploadFile() {
         });
 
         const data = await response.json();
-        document.getElementById("output").innerHTML = JSON.stringify(data, null, 2);
+
+        if (data.status === "success" && data.results) {
+            // Display results in a readable way
+            document.getElementById("output").innerHTML = `
+                <h3>Processed Results:</h3>
+                <pre>${JSON.stringify(data.results, null, 2)}</pre>
+            `;
+        } else {
+            document.getElementById("output").textContent = "Upload succeeded but no results returned.";
+        }
 
     } catch (err) {
         console.error(err);
-        alert("Upload failed!");
+        alert("Upload failed! See console for details.");
     }
 }
